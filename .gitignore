@@ -286,3 +286,11 @@ __pycache__/
 *.btm.cs
 *.odx.cs
 *.xsd.cs
+
+#Additional files
+*.vcxproj
+*.filters
+stdafx.cpp
+stdafx.h
+targetver.h
+.sln
