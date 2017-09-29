@@ -35,7 +35,7 @@ Matrix::Matrix(int r, int c): row(r),col(c) {
 			matrix[j][k] = 0;
 }
 /*
-//Освобождаем память
+//TODO Освобождаем память
 Matrix::~Matrix() {
 	for (int i = 0; i < row; i++)
 		delete[]matrix[i];
@@ -60,7 +60,7 @@ void Matrix::input_Matrix(istream &input) {
 Matrix Matrix::operator+(const Matrix &right) {
 	Matrix result(row, col);
 	if (row != right.row || col != right.col) { //Проверяем размеры матриц
-		cout << "Error: different size";
+		cout << "Error: wrong size";
 		exit(1);
 	}
 	else 
@@ -79,74 +79,54 @@ const Matrix &Matrix::operator=(const Matrix &A) {
 
 //Перегружаем оператор *
 Matrix Matrix::operator*(const Matrix &right) {
-	Matrix result(row, col);
-	if (row != right.row || col != right.col) { //Проверяем размеры матриц
-		cout << "Error: different size";
+	Matrix result(row, right.col);
+	if (col == right.row) {
+		// Идём по строкам левой матрицы
+		for (int i = 0; i < row; i++)
+			// Идём по столбцам правой матрицы
+			for (int j = 0; j < right.col; j++)
+				// Идём по столбцам левой (и по строка правой) матрицы
+				for (int k = 0; k < col; k++)
+					// Формируем очередной элемент результирующей матрицы
+					result.matrix[i][j] += matrix[i][k] * right.matrix[k][j];
+		return result;
+	}
+	else {
+		cout << "Error: wrong size";
 		exit(1);
 	}
-	else
-		for (int i = 0; i < row; i++)
-			for (int j = 0; j < col; j++)
-				result.matrix[i][j] = matrix[i][j] + right.matrix[i][j];
-	return result;
+	
 }
-
-
-/*
-Matrix Matrix::operator*(const Matrix &rhs) const
-{
-	Matrix result(_rows, rhs._cols); // Результирующая матрица будет иметь столько же
-									 // строк, сколько и левая матрица, и столько же
-									 // столбцов, сколько правая
-
-									 // Умножение матриц возможно, только если
-									 // количество столбцов левой матрицы и
-									 // количество строк правой совпадают
-	if (_cols == rhs._rows)
-	{
-		// Идём по строкам левой матрицы
-		for (unsigned i = 0; i < _rows; ++i)
-			// Идём по столбцам правой матрицы
-			for (unsigned j = 0; j < rhs._cols; ++j)
-				// Идём по столбцам левой (и по строка правой) матрицы
-				for (unsigned k = 0; k < _cols; ++k)
-					// Формируем очередной элемент результирующей матрицы
-					result._matrix[i][j] += _matrix[i][k] * rhs._matrix[k][j];
-	}
-	// Если количество столбцов левой и количество
-	// строк правой матрицы не совпадают, то
-	// результатом выполнения операции будет
-	// число 0
-	else
-		result.resize();
-
-	// Возвращаем результат умножения
-	return result;
-}
-*/
-
 
 stringstream Form_input(const int&, const int&);//Функция для генерации случайных чисел
 
 int main()
 {
 	int rows(3), columns(4);
-	Matrix A(rows, columns), B(rows, columns), C(rows, columns), D(10,10); //Инициализируем матрицы
+	Matrix A(rows, columns), B(rows, columns), C(rows, columns), D(rows,columns), E(columns, rows),
+		F(rows, rows); //Инициализируем матрицы
 	A.input_Matrix(Form_input(rows,columns)); //Заполняем матрицу A случайными значениями
+	cout << "A" << endl;
 	A.Print_Matrix(); //выводим матрицу А
-	cout << endl;
+	cout << endl << "B" << endl;
 	srand(time(NULL));
 	B.input_Matrix(Form_input(rows, columns));//Заполняем матрицу B случайными значениями
 	B.Print_Matrix(); //выводим матрицу B
+	/*Присваивание*/
 	C = A;// В матрицу С копируем А
-	cout << endl;
+	cout << endl << "C = A" << endl;
 	C.Print_Matrix(); //выводим матрицу С
+	/*Сложение*/
 	C = A + B;//Складываем матрицы и результат записываем в С
-	cout << endl;
+	cout << endl << "A + B" << endl;
 	C.Print_Matrix(); //выводим матрицу С
+	/*Умножение*/
+	D.input_Matrix(Form_input(rows, columns));//Заполняем матрицу D случайными значениями
+	E.input_Matrix(Form_input(rows, columns));//Заполняем матрицу E случайными значениями
+	F = D*E; //Перемножаем матрицы А и В
+	cout << endl << "D * E" << endl;
+	F.Print_Matrix(); //выводим матрицу D
 
-	
-	
 	return 0;
 }
 
@@ -154,6 +134,6 @@ int main()
 stringstream Form_input(const int& rows, const int& columns) {
 	stringstream input;
 	for (int i = 0; i < rows*columns; i++)
-		input << rand() % 99 << " ";
+		input << rand() % 20 << " ";
 	return input;
 }
