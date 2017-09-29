@@ -293,5 +293,5 @@ __pycache__/
 stdafx.cpp
 stdafx.h
 targetver.h
-.sln
-.txt
+*.sln
+*.txt
