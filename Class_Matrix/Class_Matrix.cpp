@@ -1,3 +1,4 @@
+/*   Создаем класс для Матрицы и перегружаем операторы ввода, вывода, а также: +,-,*,=   */
 #include "stdafx.h"
 #include <iostream>
 #include <iomanip>
@@ -5,7 +6,6 @@
 #include <sstream>
 using namespace std;
 
-//template <typename T>
 //Создаем класс для матриц
 class Matrix {
 public:
@@ -44,6 +44,7 @@ Matrix::~Matrix() {
 	delete[]matrix;
 }
 */
+
 //Выводим матрицу на экран
 void Matrix::Print_Matrix() const {
 	for (int i = 0; i < row; i++) {
@@ -52,12 +53,14 @@ void Matrix::Print_Matrix() const {
 		cout << endl;
 	}
 }
+
 //Заполняем матрицу
 void Matrix::input_Matrix(istream &input) {
 	for (int i = 0; i < row; i++)
 		for (int j = 0; j < col; j++)
 				input >> matrix[i][j];
 }
+
 //Перегружаем оператор +
 Matrix Matrix::operator+(const Matrix &right) {
 	Matrix result(row, col);
@@ -71,6 +74,7 @@ Matrix Matrix::operator+(const Matrix &right) {
 				result.matrix[i][j] = matrix[i][j] + right.matrix[i][j];
 	return result;
 }
+
 //Перегружаем оператор =
 const Matrix &Matrix::operator=(const Matrix &A) {
 	for (int i = 0; i < row; i++)
@@ -96,15 +100,16 @@ Matrix Matrix::operator*(const Matrix &right) {
 	else {
 		cout << "Error: wrong size";
 		exit(1);
-	}
-	
+	}	
 }
 
+//Перегрузка оператора ввода
 istream &operator>>(istream &input, Matrix& A) {
 	A.input_Matrix(input);
 	return input;
 }
 
+//Перегрузка оператора вывода
 ostream &operator<<(ostream& output, const Matrix &A) {
 	A.Print_Matrix();
 	return output;
@@ -118,9 +123,9 @@ int main()
 	Matrix A(rows, columns), B(rows, columns), C(rows, columns), D(rows,columns), E(columns, rows),
 		F(rows, rows); //Инициализируем матрицы
 	A.input_Matrix(Form_input(rows,columns)); //Заполняем матрицу A случайными значениями
-	cout << "A" << endl;
+	cout << "Matrix A:" << endl;
 	A.Print_Matrix(); //выводим матрицу А
-	cout << endl << "B" << endl;
+	cout << endl << "Matrix B:" << endl;
 	srand(time(NULL));
 	B.input_Matrix(Form_input(rows, columns));//Заполняем матрицу B случайными значениями
 	B.Print_Matrix(); //выводим матрицу B
@@ -130,18 +135,18 @@ int main()
 	C.Print_Matrix(); //выводим матрицу С
 	/*Сложение*/
 	C = A + B;//Складываем матрицы и результат записываем в С
-	cout << endl << "A + B" << endl;
+	cout << endl << "A + B = " << endl;
 	C.Print_Matrix(); //выводим матрицу С
 	/*Умножение*/
 	D.input_Matrix(Form_input(rows, columns));//Заполняем матрицу D случайными значениями
 	E.input_Matrix(Form_input(rows, columns));//Заполняем матрицу E случайными значениями
 	F = D*E; //Перемножаем матрицы А и В
-	cout << endl << "D * E" << endl;
+	cout << endl << "D * E = " << endl;
 	F.Print_Matrix(); //выводим матрицу D
 	/*Ввод и вывод матриц через операторы cin и cout*/
 	cout << endl << "Please, enter 12 numbers: ";
 	cin >> A;
-	cout << "A after cout" << endl;
+	cout << "Matrix A after cout: " << endl;
 	cout << A;
 
 	return 0;
