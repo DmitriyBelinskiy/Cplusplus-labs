@@ -19,11 +19,13 @@ public:
 	const Matrix &operator=(const Matrix &); //Присваивание
 	Matrix operator*(const Matrix &);//Умножение
 
-
 private:
 	int col, row;
 	int **matrix; 
 };
+
+istream &operator>>(istream &, Matrix &);
+ostream &operator<<(ostream &, const Matrix &);
 
 Matrix::Matrix(int r, int c): row(r),col(c) {
 	matrix = new int*[row];
@@ -98,6 +100,16 @@ Matrix Matrix::operator*(const Matrix &right) {
 	
 }
 
+istream &operator>>(istream &input, Matrix& A) {
+	A.input_Matrix(input);
+	return input;
+}
+
+ostream &operator<<(ostream& output, const Matrix &A) {
+	A.Print_Matrix();
+	return output;
+}
+
 stringstream Form_input(const int&, const int&);//Функция для генерации случайных чисел
 
 int main()
@@ -126,6 +138,11 @@ int main()
 	F = D*E; //Перемножаем матрицы А и В
 	cout << endl << "D * E" << endl;
 	F.Print_Matrix(); //выводим матрицу D
+	/*Ввод и вывод матриц через операторы cin и cout*/
+	cout << endl << "Please, enter 12 numbers: ";
+	cin >> A;
+	cout << "A after cout" << endl;
+	cout << A;
 
 	return 0;
 }
