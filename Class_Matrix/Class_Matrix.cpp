@@ -18,6 +18,7 @@ public:
 	Matrix operator+(const Matrix &) const; //Сложение
 	Matrix &operator=(const Matrix &); //Присваивание
 	Matrix operator*(const Matrix &) const;//Умножение
+	void FreeMemory(Matrix &); //Освобождение памяти
 
 	friend istream &operator>>(istream &, Matrix &);
 	friend ostream &operator<<(ostream &, const Matrix &);
@@ -36,6 +37,14 @@ Matrix::Matrix(int r, int c): row(r),col(c) {
 		//Инициализируем матрицу нулями
 		for (int j = 0; j < col; j++)
 			matrix[i][j] = 0;
+	}
+}
+
+void FreeMemory(Matrix &A) {
+	if (матрицы нет) {
+		for (int i = 0; i < row; i++)
+			delete[]matrix[i];
+		delete[]matrix;
 	}
 }
 /*
