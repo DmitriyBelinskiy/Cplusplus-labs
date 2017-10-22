@@ -21,10 +21,9 @@ Node Node::Get_closest(int i){
 			if (i < n.second.size()) {
 				set<Node>::iterator it;
 				it = n.second.begin();
-				advance(it, i);
+				//advance(it, i); - ToDO обработать тупиковые ветви
 				return *it;
-			}
-			else 
+			} else
 				throw logic_error("No more Nodes");
 		}
 	}

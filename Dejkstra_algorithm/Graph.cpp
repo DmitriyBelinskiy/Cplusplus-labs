@@ -32,15 +32,19 @@ void Graph::Change_Weight(const Node& from, Node to, const int& new_weight) {
 
 void Graph::Print_greedy_way(const Node& start, const Node& end) const {
 	vector<Node> final_way;
-	Node temp = *full_graph.find(start);
-	final_way.push_back(temp);
-	while (temp != end) {
+	int weight_sum(0);
+	Node current = *full_graph.find(start);
+	final_way.push_back(current);
+	while (current != end) {
 		/* Нахожу в текущей вершине ближайшую вершину и с помощью механики итераторов нахожу ее 
 		в классе графа и записываю найденное значение в temp. Таким образом обрабатываются только
 		вершины в текущем графе */
-		temp = *full_graph.find(temp.Get_closest());
-		final_way.push_back(temp);
+		Node next = *full_graph.find(current.Get_closest());
+		weight_sum += current.Get_weight(next);
+		current = next;		
+		final_way.push_back(current);
 	}
 	for (auto n : final_way)
 		cout << n.Get_name() << " - ";
+	cout << "weight sum = " << weight_sum;
 }

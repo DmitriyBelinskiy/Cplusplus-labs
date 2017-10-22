@@ -8,7 +8,7 @@
 using namespace std;
 
 class Node {
-protected:
+private:
 	int name;
 	map<Node, int> next_nodes_weights;
 	map<int, set<Node>> weight_sort;

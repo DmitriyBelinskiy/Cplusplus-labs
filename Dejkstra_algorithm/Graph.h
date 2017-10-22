@@ -5,6 +5,7 @@ class Graph
 {
 private:
 	set<Node> full_graph;
+	map<int, Node> full_graph_weigted;//тут хранятся обновляемые веса вершин!!!
 public:
 	Graph() {}
 	Graph(const Node&);
