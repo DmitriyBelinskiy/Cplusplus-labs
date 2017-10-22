@@ -14,7 +14,7 @@ public:
 	void Change_Weight(const Node&, Node, const int&);
 	//Greedy algorithm
 	void Print_greedy_way(const Node& start, const Node& end) const;
-
+	void Print_Dijkstras_algorithm(const Node& start, const Node& end) const;
 
 };
 

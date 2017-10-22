@@ -48,3 +48,9 @@ void Graph::Print_greedy_way(const Node& start, const Node& end) const {
 		cout << n.Get_name() << " - ";
 	cout << "weight sum = " << weight_sum;
 }
+
+
+void Graph::Print_Dijkstras_algorithm(const Node& start, const Node& end) const {
+
+
+}
