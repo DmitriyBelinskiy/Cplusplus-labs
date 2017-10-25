@@ -167,5 +167,3 @@ void Graph::Print_Dijkstras_way(const int& from, const int& to) {
 	else
 		throw logic_error("One of the nodes doesn't exist.");
 }
-
-
