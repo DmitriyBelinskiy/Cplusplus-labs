@@ -1,50 +1,50 @@
 #include "stdafx.h"
 #include "Node.h"
 
-Node::Node(const int& new_name) : name(new_name) {}
-int Node::Get_name() { return name; }
+//«аписываем стоимость перехода к одной из ближайших вершин (запоминаем ее с помощью указател€)
+void Node::Set_edges(const int& to, const int& weight, Node* pnext_node) {
+	edges_weights[to] = weight;
+	pntr_next_nodes[to] = pnext_node;
+	weight_sort[weight].insert(to);
 
-void Node::Set_closest_node(const Node& next_node, int weight) {
-	next_nodes_weights[next_node] = weight;
-	weight_sort[weight].insert(next_node);
+	//»нициализаци€ полей дл€ алгоритма ƒейкстры
+	pnext_node->initial_weight = 1000000; //“ипа бесконечность
+	/*if (pnext_node->initial_weight < weight) {
+		pnext_node->initial_weight = weight + 1; //больше чем текуща€ стоимость перехода (вместо бесконечности)
+		это не работает. ѕеременна€ должны быть равна сумме всех стимостей граней + 1!!!
+		Ќужно создать цикл, который при добавлении нового ребра пересчитывал общую стоимость
+		и обновл€л значени€ этого пол€ в каждой вершине! ѕока пусть 1000000 будет.
+		*/
+		// опируем значение метки во временный массив
+	pnext_node->best_way[0] = pnext_node->initial_weight;
+	pnext_node->best_way[1] = 0;
+	//}
 }
 
-int Node::Get_weight(Node& to){
-	if (next_nodes_weights.count(to.name) != 0)
-		return next_nodes_weights[to.name];
+//ћен€ем стоимость перехода к указанной вершине
+void Node::Change_weight(const int& to, const int& weight) {
+	//«апоминаем старое значение
+	int old_weight = edges_weights[to];
+	edges_weights[to] = weight;	
+	//≈сли старому весу соотвествовало несколько вершин, удал€ем заданную
+	if (weight_sort[old_weight].size() > 1)
+		weight_sort[old_weight].erase(to);
+	//¬ остальных случа€х удалем весь ключ
 	else
-		throw logic_error("No way");
-}
-Node Node::Get_closest(int i){
-	if (weight_sort.size() != 0) {
-		for (auto n : weight_sort) {
-			if (i < n.second.size()) {
-				set<Node>::iterator it;
-				it = n.second.begin();
-				//advance(it, i); - ToDO обработать тупиковые ветви
-				return *it;
-			} else
-				throw logic_error("No more Nodes");
-		}
-	}
-	else
-		throw logic_error("Dead road");
+		weight_sort.erase(old_weight);
+	//«аписываем в словарь новую стоимость перехода и им€ вершины графа
+	weight_sort[weight].insert(to);
 }
 
-void Node::Change_weight_Node(const Node& where, const int& new_w) {
-	if (next_nodes_weights.count(where) != 0) {
-		int old_weight = next_nodes_weights[where];
-		next_nodes_weights[where] = new_w;
-		weight_sort[new_w].insert(where);
-		weight_sort[old_weight].erase(where);
-		if (weight_sort[old_weight].size() == 0)
-			weight_sort.erase(old_weight);
-	}
-	else {
-		throw logic_error("No way to this Node");
-	}
+//¬озвращаем название вершины с наименьшей стоимостью перехода
+int Node::Get_cheapest_edge() {
+	auto i = weight_sort.begin();
+	auto j = i->second.begin();
+	return *j;
 }
 
+/*
+//ѕерегружаем операторы дл€ класса Node
 bool operator<(const Node& lhs, const Node& rhs) {
 	if (lhs.name < rhs.name)
 		return true;
@@ -63,4 +63,4 @@ bool operator==(const Node& lhs, const Node& rhs) {
 	else return false;
 }
 
-
+*/
