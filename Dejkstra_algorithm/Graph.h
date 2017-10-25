@@ -1,18 +1,18 @@
-#pragma once
+п»ї#pragma once
 #include "Node.h"
 #include <set>
 class Graph {
-	//Все вершины записываем в словарь
+	//В¬СЃРµ РІРµСЂС€РёРЅС‹ Р·Р°РїРёСЃС‹РІР°РµРј РІ СЃР»РѕРІР°СЂСЊ
 	map<int, Node*> full_graph; //Name and pntr to one node
 public:
-	//Конструкторы
+	//В РѕРЅСЃС‚СЂСѓРєС‚РѕСЂС‹
 	Graph() {}
 	~Graph();
-	//В этом конструкторе задаем первую вершину
+	//В¬ СЌС‚РѕРј РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂРµ Р·Р°РґР°РµРј РїРµСЂРІСѓСЋ РІРµСЂС€РёРЅСѓ
 	Graph(const int& name); 
-	//Записываем стоимость перехода от одной вершины к другой
+	//В«Р°РїРёСЃС‹РІР°РµРј СЃС‚РѕРёРјРѕСЃС‚СЊ РїРµСЂРµС…РѕРґР° РѕС‚ РѕРґРЅРѕР№ РІРµСЂС€РёРЅС‹ Рє РґСЂСѓРіРѕР№
 	void Set_edges(const int& from, const int& to, const int& weight); 
-	//Меняем стоимость указанного ребра
+	//С›РµРЅВ¤РµРј СЃС‚РѕРёРјРѕСЃС‚СЊ СѓРєР°Р·Р°РЅРЅРѕРіРѕ СЂРµР±СЂР°
 	void Change_weight(const int& from, const int& to, const int& weight);
 	//Greedy algorithm
 	void Print_greedy_way(int from, const int& to);
