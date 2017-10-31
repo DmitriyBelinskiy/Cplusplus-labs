@@ -1,5 +1,6 @@
 ﻿#include "stdafx.h"
 #include <iostream>
+#include <algorithm>
 #include "Graph.h"
 using namespace std;
 
@@ -20,6 +21,11 @@ Graph::Graph(const int& name) {
 	p_node->best_way[0] = p_node->initial_weight;
 	p_node->best_way[1] = 0;
 	p_node->p_flag = 0;//Инициализируем флаг прохода вершины для алгоритма Дейкстры
+}
+
+//Находим указатель на вершину по названию
+Node* Graph::Get_edge(const int& node_name) {
+	return full_graph[node_name];
 }
 
 //Записываем стоимость перехода от исходной вершины к другой
@@ -76,27 +82,26 @@ void Graph::Change_weight(const int& from, const int& to, const int& weight) {
 
 
 //Greedy algorithm
-void Graph::Print_greedy_way(int from, const int& to) {
+vector<int> Graph::Find_greedy_way(int from, const int& to, int* weight_sum) {
 	//Стандартная проверка наличия вершин в графе
 	if (full_graph.count(from) != 0 && full_graph.count(to) != 0) {
 		vector<int> greedy_way;
 		greedy_way.push_back(from);
-		int weight_sum(0);
+		//int weight_sum(0);
 		//int save_previous_node; Для хранения пердыдущей вершины
 		while (from != to) {
 			//Находим вершину с самым дешевым переходом
 			int cheapest_node = full_graph[from]->Get_cheapest_edge();
 			//Сохраняем ее в результирующем векторе
 			greedy_way.push_back(cheapest_node);
-			weight_sum += full_graph[from]->edges_weights[cheapest_node];
+			//Возвращаем итоговую стоимость всех переходов
+			*weight_sum += full_graph[from]->edges_weights[cheapest_node];
 			//Заменяем текущую вершина на новую (самую дешевую)
 			//save_previous_node = from;
 			from = cheapest_node;
 		}
-		//Выводим вектор пути на экран
-		for (const auto& node : greedy_way)
-			cout << node << " - ";
-		cout << "Total weight sum: " << weight_sum << endl;
+
+		return greedy_way;
 	}
 	else
 		throw logic_error("Wrong nodes.");
@@ -106,7 +111,7 @@ void Graph::Print_greedy_way(int from, const int& to) {
 }
 
 //Dijkstra's algorithm
-void Graph::Print_Dijkstras_way(const int& from, const int& to) {
+vector<int> Graph::Find_Dijkstras_way(const int& from, const int& to, int* weight_sum) {
 	if (full_graph.count(from) != 0 && full_graph.count(to) != 0) {
 		vector<int> dijkstras_way;
 		int temp_from = from;
@@ -151,11 +156,10 @@ void Graph::Print_Dijkstras_way(const int& from, const int& to) {
 			temp_to = full_graph[temp_to]->best_way[1];
 			dijkstras_way.push_back(temp_to);
 		}
-
-		//Выводим оптимальный путь на экран
-		for (int i = dijkstras_way.size() - 1; i != -1; i--)
-			cout << dijkstras_way[i] << " - ";
-		cout << "Total weight sum: " << full_graph[to]->best_way[0] << endl;
+		//Переворачиваем вектор
+		reverse(dijkstras_way.begin(), dijkstras_way.end());
+		//Возвращаем итоговую стоимость всех переходов
+		*weight_sum = full_graph[to]->best_way[0];
 
 		//Восстанавливаем исходные метки вершин, флагов и завершаем алгоритм
 		for (auto &node : full_graph) {
@@ -163,6 +167,8 @@ void Graph::Print_Dijkstras_way(const int& from, const int& to) {
 			node.second->best_way[1] = 0;
 			node.second->p_flag = 0;
 		}
+		//Возвращаем путь
+		return dijkstras_way;
 	}
 	else
 		throw logic_error("One of the nodes doesn't exist.");
