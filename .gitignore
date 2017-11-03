@@ -295,3 +295,7 @@ stdafx.h
 targetver.h
 *.sln
 *.txt
+
+#Personal settings
+testing/
+Dll1/

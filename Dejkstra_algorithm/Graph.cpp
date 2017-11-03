@@ -87,7 +87,7 @@ vector<int> Graph::Find_greedy_way(int from, const int& to, int* weight_sum) {
 	if (full_graph.count(from) != 0 && full_graph.count(to) != 0) {
 		vector<int> greedy_way;
 		greedy_way.push_back(from);
-		//int weight_sum(0);
+		*weight_sum = 0; //Обнуляем значение итоговой суммы переходов
 		//int save_previous_node; Для хранения пердыдущей вершины
 		while (from != to) {
 			//Находим вершину с самым дешевым переходом

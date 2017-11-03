@@ -28,15 +28,15 @@ int main()
 		
 		Print_way(test.Find_greedy_way(1, 5, &weight_sum), test, weight_sum);
 		cout << endl;
-		/*
+		
 		test.Change_weight(3, 6, 15);
-		test.Find_greedy_way(1, 5);
+		Print_way(test.Find_greedy_way(1, 5, &weight_sum), test, weight_sum);
 		cout << endl;
 
 		test.Set_edges(2, 5, 9);
-		test.Find_greedy_way(1, 5);
+		Print_way(test.Find_greedy_way(1, 5, &weight_sum), test, weight_sum);
 		cout << endl;
-		*/
+		
 		Print_way(test.Find_Dijkstras_way(1, 5, &weight_sum), test, weight_sum);
 		cout << endl;
 
