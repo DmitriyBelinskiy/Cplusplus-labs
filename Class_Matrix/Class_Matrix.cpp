@@ -49,6 +49,10 @@ void FreeMemory(Matrix &A) {
 		delete[]matrix;
 	}
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+	//cout << "Destruct" << endl;
+>>>>>>> d3c1074... Some changes
 =======
 	//cout << "Destruct" << endl;
 >>>>>>> d3c1074... Some changes
