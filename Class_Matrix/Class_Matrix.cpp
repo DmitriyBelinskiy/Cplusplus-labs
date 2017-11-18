@@ -22,6 +22,8 @@ public:
 
 	friend istream &operator>>(istream &, Matrix &);
 	friend ostream &operator<<(ostream &, const Matrix &);
+
+	void find_Min();
 	
 private:
 	int col, row;
@@ -46,6 +48,10 @@ void FreeMemory(Matrix &A) {
 			delete[]matrix[i];
 		delete[]matrix;
 	}
+<<<<<<< HEAD
+=======
+	//cout << "Destruct" << endl;
+>>>>>>> d3c1074... Some changes
 }
 /*
 //TODO Освобождаем память
@@ -112,6 +118,23 @@ ostream &operator<<(ostream& output, const Matrix &A) {
 	return output;
 }
 
+//Формируем массив минимальных значений в каждой строке
+void Matrix::find_Min() {
+	int i, j;
+	int *min = new int[this->row];
+	for (i = 0; i < this->row; i++)
+		min[i] = this->matrix[i][0];
+
+	for (i = 0; i < this->row; i++)
+		for (j = 0; j < this->col; j++)
+			if (this->matrix[i][j] <= min[i])
+				min[i] = this->matrix[i][j];
+	
+	for (i = 0; i < this->row; i++)
+		cout << setw(5) << min[i];
+	cout << endl;
+}
+
 stringstream Form_input(const int&, const int&);//Функция для генерации случайных чисел для матрицы нужного размера
 
 int main()
@@ -142,6 +165,8 @@ int main()
 	E = C*D; 
 	//выводим матрицу E
 	cout << "E = C * D" << endl << E << endl; 
+
+	E.find_Min();
 
 	return 0;
 }
