@@ -1,4 +1,4 @@
-/*   Создаем класс для Матрицы и перегружаем операторы ввода, вывода, а также: +,-,*,=   */
+/* Создаем класс для Матрицы и перегружаем операторы ввода, вывода, а также: +,-,*,= */
 #include "stdafx.h"
 #include <iostream>
 #include <iomanip>
@@ -12,27 +12,26 @@ using namespace std;
 class Matrix {
 public:
 	Matrix(int, int); //Конструктор с параметрами
-	//~Matrix(); //Освобождаем память
+	~Matrix(); //Освобождаем память
 
-	//Перегружаем операторы
-	Matrix operator+(const Matrix &) const; //Сложение
+			   //Перегружаем операторы
+	Matrix* operator+(const Matrix &) const; //Сложение
 	Matrix &operator=(const Matrix &); //Присваивание
-	Matrix operator*(const Matrix &) const;//Умножение
-	void FreeMemory(Matrix &); //Освобождение памяти
+	Matrix* operator*(const Matrix &) const;//Умножение
 
 	friend istream &operator>>(istream &, Matrix &);
 	friend ostream &operator<<(ostream &, const Matrix &);
 
 	void find_Min();
-	
+
 private:
 	int col, row;
-	int **matrix; 
+	int **matrix;
 };
 
 
 
-Matrix::Matrix(int r, int c): row(r),col(c) {
+Matrix::Matrix(int r, int c) : row(r), col(c) {
 	matrix = new int*[row];
 	for (int i = 0; i < row; i++) {
 		matrix[i] = new int[col];
@@ -42,51 +41,39 @@ Matrix::Matrix(int r, int c): row(r),col(c) {
 	}
 }
 
-void FreeMemory(Matrix &A) {
-	if (матрицы нет) {
+
+//TODO Освобождаем память
+Matrix::~Matrix() {
+	if (col > 0) {
 		for (int i = 0; i < row; i++)
 			delete[]matrix[i];
 		delete[]matrix;
 	}
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
 	//cout << "Destruct" << endl;
->>>>>>> d3c1074... Some changes
-=======
-	//cout << "Destruct" << endl;
->>>>>>> d3c1074... Some changes
 }
-/*
-//TODO Освобождаем память
-Matrix::~Matrix() {
-	for (int i = 0; i < row; i++)
-		delete[]matrix[i];
-	delete[]matrix;
-}
-*/
+
 
 //Перегружаем оператор +
-Matrix Matrix::operator+(const Matrix &right) const {
+Matrix* Matrix::operator+(const Matrix &right) const {
 	if (row != right.row || col != right.col) { //Проверяем размеры матриц
 		cout << "Matrices dimensions doesn't allow sum!";
 		exit(1);
 	}
 	else {
-		Matrix result(row, col);
+		Matrix *result = new Matrix(row, col);
 		for (int i = 0; i < row; i++)
 			for (int j = 0; j < col; j++)
-				result.matrix[i][j] = matrix[i][j] + right.matrix[i][j];
+				result->matrix[i][j] = matrix[i][j] + right.matrix[i][j];
 		return result;
-	}	
+	}
 }
 
 //Перегружаем оператор =
 Matrix &Matrix::operator=(const Matrix &A) = default;
 
 //Перегружаем оператор *
-Matrix Matrix::operator*(const Matrix &right) const {
-	Matrix result(row, right.col);
+Matrix* Matrix::operator*(const Matrix &right) const {
+	Matrix *result = new Matrix(row, right.col);
 	if (col == right.row) {
 		// Идём по строкам левой матрицы
 		for (int i = 0; i < row; i++)
@@ -95,13 +82,13 @@ Matrix Matrix::operator*(const Matrix &right) const {
 				// Идём по столбцам левой (и по строка правой) матрицы
 				for (int k = 0; k < col; k++)
 					// Формируем очередной элемент результирующей матрицы
-					result.matrix[i][j] += matrix[i][k] * right.matrix[k][j];
+					result->matrix[i][j] += matrix[i][k] * right.matrix[k][j];
 		return result;
 	}
 	else {
 		cout << "Matrices dimensions doesn't allow multiplication!";
 		exit(1);
-	}	
+	}
 }
 
 //Перегрузка оператора ввода
@@ -133,7 +120,7 @@ void Matrix::find_Min() {
 		for (j = 0; j < this->col; j++)
 			if (this->matrix[i][j] <= min[i])
 				min[i] = this->matrix[i][j];
-	
+
 	for (i = 0; i < this->row; i++)
 		cout << setw(5) << min[i];
 	cout << endl;
@@ -145,30 +132,30 @@ int main()
 {
 	int rows(3), columns(4);
 	//Инициализируем матрицы
-	Matrix A(rows, columns), B(rows, columns), C(rows, columns), D(columns, rows), E(rows, rows); 
+	Matrix A(rows, columns), B(rows, columns), C(rows, columns), D(columns, rows), E(rows, rows);
 
 	//Заполняем матрицу A случайными значениями
 	Form_input(rows, columns) >> A;
 	//выводим матрицу А
-	cout << "Matrix A:" << endl << A << endl; 
+	cout << "Matrix A:" << endl << A << endl;
 
 	//Заполняем матрицу B случайными значениями
 	srand(time(NULL));
 	Form_input(rows, columns) >> B;
 	//выводим матрицу B
-	cout << "Matrix B:" << endl << B << endl; 
+	cout << "Matrix B:" << endl << B << endl;
 	//Складываем матрицы и результат записываем в С
-	C = A + B;
+	C = *(A + B);
 	//выводим матрицу C
-	cout << "C = A + B" << endl << C << endl; 
+	cout << "C = A + B" << endl << C << endl;
 
 	//Заполняем матрицу D через cin
 	cout << "Please enter 12 numbers to fill matrix D: ";
 	cin >> D;
 	//Перемножаем матрицы C и D
-	E = C*D; 
+	E = *(C*D);
 	//выводим матрицу E
-	cout << "E = C * D" << endl << E << endl; 
+	cout << "E = C * D" << endl << E << endl;
 
 	E.find_Min();
 
