@@ -29,6 +29,8 @@ MyVector::~MyVector()
 	std::cout << "destructed" << std::endl;
 }
 
+
+
 void MyVector::push_back(const int& new_el) {
 	v_size = v_size + 1;
 	if (v_size-1 != 0) {		
@@ -53,6 +55,7 @@ int MyVector::size() const {
 	return this->v_size;
 }
 
+/*
 int MyVector::pop_back() {
 	if (v_size != 0) {
 		int result = p_begin[v_size - 1];
@@ -64,11 +67,23 @@ int MyVector::pop_back() {
 		for (int i = 0; i < v_size - 1; i++)
 			p_begin[i] = temp[i];
 		
-		return result;
-		
+		return result;		
 	}
 	else {
 		throw std::logic_error("Vector is empty");
 	}
+}
+*/
 
+int MyVector::get_element(const int &index) {
+	return *(this->p_begin + index);
+}
+
+MyVector &MyVector::operator=(MyVector &in) = default;// {
+
+MyVector *MyVector::operator+(MyVector &in) {
+	//MyVector *result = new MyVector;
+	for (int i = 0; i < in.v_size; i++)
+		this->push_back(in.get_element(i));
+	return this;
 }

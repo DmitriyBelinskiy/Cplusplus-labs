@@ -29,9 +29,9 @@ public:
 	int size() const;
 
 	//перегрузка операторов
-	MyVector *operator=(const MyVector&);
-	MyVector *operator+(const MyVector&);
-	MyVector *operator*(const MyVector&);
+	MyVector &operator=(MyVector&);
+	MyVector *operator+(MyVector&);
+	MyVector *operator*(const MyVector&) const;
 
 
 private:
@@ -42,3 +42,5 @@ private:
 
 };
 
+//+=   - добавление последнего элемента в массив
+//-=   - удаляем последний

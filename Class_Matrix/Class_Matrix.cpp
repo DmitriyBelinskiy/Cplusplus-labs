@@ -9,6 +9,7 @@ using namespace std;
 
 
 //Создаем класс для матриц
+
 class Matrix {
 public:
 	Matrix(int, int); //Конструктор с параметрами
