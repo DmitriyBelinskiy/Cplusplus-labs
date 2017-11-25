@@ -46,7 +46,7 @@ Matrix<T>::Matrix(int r, int c) : row(r), col(c) {
 }
 
 
-//TODO Освобождаем память
+//Освобождаем память
 template <class T>
 Matrix<T>::~Matrix() {
 	if (col > 0) {
