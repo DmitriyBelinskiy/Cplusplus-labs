@@ -79,7 +79,7 @@ int MyVector::get_element(const int &index) {
 	return *(this->p_begin + index);
 }
 
-MyVector &MyVector::operator=(MyVector &in) = default;// {
+MyVector &MyVector::operator=(MyVector &in) = default;
 
 MyVector *MyVector::operator+(MyVector &in) {
 	//MyVector *result = new MyVector;

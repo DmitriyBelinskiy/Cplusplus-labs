@@ -31,7 +31,7 @@ public:
 	//перегрузка операторов
 	MyVector &operator=(MyVector&);
 	MyVector *operator+(MyVector&);
-	MyVector *operator*(const MyVector&) const;
+	MyVector *operator*(const MyVector&);
 
 
 private:

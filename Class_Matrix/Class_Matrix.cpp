@@ -1,172 +1,54 @@
-/* Создаем класс для Матрицы и перегружаем операторы ввода, вывода, а также: +,-,*,= */
+/* Создаем шаблон класса для Матрицы и перегружаем операторы ввода, вывода, а также: +,-,*,= */
 #include "stdafx.h"
-#include <iostream>
-#include <iomanip>
-#include <ctime>
-#include <sstream>
-#include <iosfwd>
+#include "MatrixT.h"
 using namespace std;
 
 
-//Создаем класс для матриц
-
-class Matrix {
-public:
-	Matrix(int, int); //Конструктор с параметрами
-	~Matrix(); //Освобождаем память
-
-			   //Перегружаем операторы
-	Matrix* operator+(const Matrix &) const; //Сложение
-	Matrix &operator=(const Matrix &); //Присваивание
-	Matrix* operator*(const Matrix &) const;//Умножение
-
-	friend istream &operator>>(istream &, Matrix &);
-	friend ostream &operator<<(ostream &, const Matrix &);
-
-	void find_Min();
-
-private:
-	int col, row;
-	int **matrix;
-};
-
-
-
-Matrix::Matrix(int r, int c) : row(r), col(c) {
-	matrix = new int*[row];
-	for (int i = 0; i < row; i++) {
-		matrix[i] = new int[col];
-		//Инициализируем матрицу нулями
-		for (int j = 0; j < col; j++)
-			matrix[i][j] = 0;
-	}
-}
-
-
-//TODO Освобождаем память
-Matrix::~Matrix() {
-	if (col > 0) {
-		for (int i = 0; i < row; i++)
-			delete[]matrix[i];
-		delete[]matrix;
-	}
-	//cout << "Destruct" << endl;
-}
-
-
-//Перегружаем оператор +
-Matrix* Matrix::operator+(const Matrix &right) const {
-	if (row != right.row || col != right.col) { //Проверяем размеры матриц
-		cout << "Matrices dimensions doesn't allow sum!";
-		exit(1);
-	}
-	else {
-		Matrix *result = new Matrix(row, col);
-		for (int i = 0; i < row; i++)
-			for (int j = 0; j < col; j++)
-				result->matrix[i][j] = matrix[i][j] + right.matrix[i][j];
-		return result;
-	}
-}
-
-//Перегружаем оператор =
-Matrix &Matrix::operator=(const Matrix &A) = default;
-
-//Перегружаем оператор *
-Matrix* Matrix::operator*(const Matrix &right) const {
-	Matrix *result = new Matrix(row, right.col);
-	if (col == right.row) {
-		// Идём по строкам левой матрицы
-		for (int i = 0; i < row; i++)
-			// Идём по столбцам правой матрицы
-			for (int j = 0; j < right.col; j++)
-				// Идём по столбцам левой (и по строка правой) матрицы
-				for (int k = 0; k < col; k++)
-					// Формируем очередной элемент результирующей матрицы
-					result->matrix[i][j] += matrix[i][k] * right.matrix[k][j];
-		return result;
-	}
-	else {
-		cout << "Matrices dimensions doesn't allow multiplication!";
-		exit(1);
-	}
-}
-
-//Перегрузка оператора ввода
-istream &operator>>(istream &input, Matrix& A) {
-	for (int i = 0; i < A.row; i++)
-		for (int j = 0; j < A.col; j++)
-			input >> A.matrix[i][j];
-	return input;
-}
-
-//Перегрузка оператора вывода
-ostream &operator<<(ostream& output, const Matrix &A) {
-	for (int i = 0; i < A.row; i++) {
-		for (int j = 0; j < A.col; j++)
-			cout << setw(4) << A.matrix[i][j]; //Выделяем 4 ячейки для числа
-		cout << endl;
-	}
-	return output;
-}
-
-//Формируем массив минимальных значений в каждой строке
-void Matrix::find_Min() {
-	int i, j;
-	int *min = new int[this->row];
-	for (i = 0; i < this->row; i++)
-		min[i] = this->matrix[i][0];
-
-	for (i = 0; i < this->row; i++)
-		for (j = 0; j < this->col; j++)
-			if (this->matrix[i][j] <= min[i])
-				min[i] = this->matrix[i][j];
-
-	for (i = 0; i < this->row; i++)
-		cout << setw(5) << min[i];
-	cout << endl;
-}
-
-stringstream Form_input(const int&, const int&);//Функция для генерации случайных чисел для матрицы нужного размера
-
 int main()
 {
-	int rows(3), columns(4);
-	//Инициализируем матрицы
-	Matrix A(rows, columns), B(rows, columns), C(rows, columns), D(columns, rows), E(rows, rows);
+	const int rows(3), columns(3);
+	//Матрица int
+	Matrix <int> A(rows, columns);
+	int array1[12] = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+	//int array1[1] = { 1 };
+	A.Set(array1);
+	cout << A << endl;
 
-	//Заполняем матрицу A случайными значениями
-	Form_input(rows, columns) >> A;
-	//выводим матрицу А
-	cout << "Matrix A:" << endl << A << endl;
+	//Матрица double
+	Matrix <double> B(rows, columns);
+	double array2[12] = { 1.44,2.56,3.89,4.32,5.88,6.222,7.55,8.55,9.22 };
+	B.Set(array2);
+	cout << B << endl;
 
-	//Заполняем матрицу B случайными значениями
-	srand(time(NULL));
-	Form_input(rows, columns) >> B;
-	//выводим матрицу B
-	cout << "Matrix B:" << endl << B << endl;
-	//Складываем матрицы и результат записываем в С
-	C = *(A + B);
-	//выводим матрицу C
-	cout << "C = A + B" << endl << C << endl;
+	//Матрица string
+	Matrix <string> C(2, 2);
+	string array3[4] = { "one", "two", "three", "four" };
+	C.Set(array3);
+	cout << C << endl;
 
-	//Заполняем матрицу D через cin
-	cout << "Please enter 12 numbers to fill matrix D: ";
-	cin >> D;
-	//Перемножаем матрицы C и D
-	E = *(C*D);
-	//выводим матрицу E
-	cout << "E = C * D" << endl << E << endl;
+	//Пример сложения матриц
+	Matrix <int> D = *(A + A);
+	cout << D << endl;
 
-	E.find_Min();
+	//Заполняем матрицу случайными значениями
+	Matrix <int> E(rows, columns);
+	Form_input(rows, columns) >> E;
+
+	//Пример умножения матриц
+	Matrix <int> F = *(A*E);
+	cout << F << endl;
+
+	//Находим минимальные элементы в каждой строке в каждой из матриц
+	A.find_Min();
+	cout << endl;
+
+	B.find_Min();
+	cout << endl;
+
+	C.find_Min();
+	cout << endl;
+
 
 	return 0;
 }
 
-//Функция для генерации случайных чисел для матрицы нужного размера
-stringstream Form_input(const int& rows, const int& columns) {
-	stringstream input;
-	for (int i = 0; i < rows*columns; i++)
-		input << rand() % 20 << " ";
-	return input;
-}
