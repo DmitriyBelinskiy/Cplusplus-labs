@@ -1,4 +1,4 @@
-#include "stdafx.h"
+п»ї#include "stdafx.h"
 #include <iostream>
 #include <iomanip>
 #include <ctime>
@@ -6,23 +6,23 @@
 using namespace std;
 
 
-//Создаем класс для матриц
+//РЎРѕР·РґР°РµРј РєР»Р°СЃСЃ РґР»СЏ РјР°С‚СЂРёС†
 template <class T>
 class Matrix {
 public:
-	Matrix(int, int); //Конструктор с параметрами
-	~Matrix(); //Освобождаем память
+	Matrix(int, int); //РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ СЃ РїР°СЂР°РјРµС‚СЂР°РјРё
+	~Matrix(); //РћСЃРІРѕР±РѕР¶РґР°РµРј РїР°РјСЏС‚СЊ
 
-			   //Перегружаем операторы
-	Matrix* operator+(const Matrix &) const; //Сложение
-	Matrix &operator=(const Matrix &); //Присваивание
-	Matrix* operator*(const Matrix &) const;//Умножение
+			   //РџРµСЂРµРіСЂСѓР¶Р°РµРј РѕРїРµСЂР°С‚РѕСЂС‹
+	Matrix* operator+(const Matrix &) const; //РЎР»РѕР¶РµРЅРёРµ
+	Matrix &operator=(const Matrix &); //РџСЂРёСЃРІР°РёРІР°РЅРёРµ
+	Matrix* operator*(const Matrix &) const;//РЈРјРЅРѕР¶РµРЅРёРµ
 
-	//Добавляем символ "<>", чтобы не ругался компановщик. Иначе нужно перенести реализацию перегрузки внутрь класса.
+	//Р”РѕР±Р°РІР»СЏРµРј СЃРёРјРІРѕР» "<>", С‡С‚РѕР±С‹ РЅРµ СЂСѓРіР°Р»СЃСЏ РєРѕРјРїР°РЅРѕРІС‰РёРє. РРЅР°С‡Рµ РЅСѓР¶РЅРѕ РїРµСЂРµРЅРµСЃС‚Рё СЂРµР°Р»РёР·Р°С†РёСЋ РїРµСЂРµРіСЂСѓР·РєРё РІРЅСѓС‚СЂСЊ РєР»Р°СЃСЃР°.
 	friend istream &operator>><>(istream &, Matrix &); 
-	friend ostream &operator<<<>(ostream &, const Matrix &); //Добавляем символ "<>", чтобы не ругался компановщик
+	friend ostream &operator<<<>(ostream &, const Matrix &); //Р”РѕР±Р°РІР»СЏРµРј СЃРёРјРІРѕР» "<>", С‡С‚РѕР±С‹ РЅРµ СЂСѓРіР°Р»СЃСЏ РєРѕРјРїР°РЅРѕРІС‰РёРє
 
-	//Простые методы для заполнения матрицы из статического массива и вывод ее на экран
+	//РџСЂРѕСЃС‚С‹Рµ РјРµС‚РѕРґС‹ РґР»СЏ Р·Р°РїРѕР»РЅРµРЅРёСЏ РјР°С‚СЂРёС†С‹ РёР· СЃС‚Р°С‚РёС‡РµСЃРєРѕРіРѕ РјР°СЃСЃРёРІР° Рё РІС‹РІРѕРґ РµРµ РЅР° СЌРєСЂР°РЅ
 	void Set(T[]);
 	void Print();
 
@@ -33,10 +33,10 @@ private:
 	T **matrix;
 };
 
-//Функция для генерации случайных чисел для матрицы нужного размера (на всякий случай)
+//Р¤СѓРЅРєС†РёСЏ РґР»СЏ РіРµРЅРµСЂР°С†РёРё СЃР»СѓС‡Р°Р№РЅС‹С… С‡РёСЃРµР» РґР»СЏ РјР°С‚СЂРёС†С‹ РЅСѓР¶РЅРѕРіРѕ СЂР°Р·РјРµСЂР° (РЅР° РІСЃСЏРєРёР№ СЃР»СѓС‡Р°Р№)
 stringstream Form_input(const int&, const int&);
 
-//Выделяем память под матрицу указанного размера
+//Р’С‹РґРµР»СЏРµРј РїР°РјСЏС‚СЊ РїРѕРґ РјР°С‚СЂРёС†Сѓ СѓРєР°Р·Р°РЅРЅРѕРіРѕ СЂР°Р·РјРµСЂР°
 template <class T>
 Matrix<T>::Matrix(int r, int c) : row(r), col(c) {
 	matrix = new T*[row];
@@ -46,7 +46,7 @@ Matrix<T>::Matrix(int r, int c) : row(r), col(c) {
 }
 
 
-//TODO Освобождаем память
+//TODO РћСЃРІРѕР±РѕР¶РґР°РµРј РїР°РјСЏС‚СЊ
 template <class T>
 Matrix<T>::~Matrix() {
 	if (col > 0) {
@@ -57,10 +57,10 @@ Matrix<T>::~Matrix() {
 }
 
 
-//Перегружаем оператор +
+//РџРµСЂРµРіСЂСѓР¶Р°РµРј РѕРїРµСЂР°С‚РѕСЂ +
 template <class T>
 Matrix<T>* Matrix<T>::operator+(const Matrix<T> &right) const {
-	if (row != right.row || col != right.col) { //Проверяем размеры матриц
+	if (row != right.row || col != right.col) { //РџСЂРѕРІРµСЂСЏРµРј СЂР°Р·РјРµСЂС‹ РјР°С‚СЂРёС†
 		cout << "Matrix dimensions don't allow sum!";
 		exit(1);
 	}
@@ -73,27 +73,27 @@ Matrix<T>* Matrix<T>::operator+(const Matrix<T> &right) const {
 	}
 }
 
-//Перегружаем оператор =
+//РџРµСЂРµРіСЂСѓР¶Р°РµРј РѕРїРµСЂР°С‚РѕСЂ =
 template <class T>
 Matrix<T> &Matrix<T>::operator=(const Matrix<T> &A) = default;
 
-//Перегружаем оператор *
+//РџРµСЂРµРіСЂСѓР¶Р°РµРј РѕРїРµСЂР°С‚РѕСЂ *
 template <class T>
 Matrix<T>* Matrix<T>::operator*(const Matrix<T> &right) const {
 	Matrix *result = new Matrix<T>(row, right.col);
 	int i, j, k;
 	if (col == right.row) {
-		//Заполняем результирующую матрицу нулями
+		//Р—Р°РїРѕР»РЅСЏРµРј СЂРµР·СѓР»СЊС‚РёСЂСѓСЋС‰СѓСЋ РјР°С‚СЂРёС†Сѓ РЅСѓР»СЏРјРё
 		for (i = 0; i < row; i++)
 			for (j = 0; j < right.col; j++)
 				result->matrix[i][j] = 0;
-		// Переходим к умножению. Идём по строкам левой матрицы
+		// РџРµСЂРµС…РѕРґРёРј Рє СѓРјРЅРѕР¶РµРЅРёСЋ. РРґС‘Рј РїРѕ СЃС‚СЂРѕРєР°Рј Р»РµРІРѕР№ РјР°С‚СЂРёС†С‹
 		for (i = 0; i < row; i++)
-			// Идём по столбцам правой матрицы 
+			// РРґС‘Рј РїРѕ СЃС‚РѕР»Р±С†Р°Рј РїСЂР°РІРѕР№ РјР°С‚СЂРёС†С‹ 
 			for (j = 0; j < right.col; j++)
-				// Идём по столбцам левой (и по строка правой) матрицы
+				// РРґС‘Рј РїРѕ СЃС‚РѕР»Р±С†Р°Рј Р»РµРІРѕР№ (Рё РїРѕ СЃС‚СЂРѕРєР° РїСЂР°РІРѕР№) РјР°С‚СЂРёС†С‹
 				for (k = 0; k < col; k++)
-					// Формируем очередной элемент результирующей матрицы
+					// Р¤РѕСЂРјРёСЂСѓРµРј РѕС‡РµСЂРµРґРЅРѕР№ СЌР»РµРјРµРЅС‚ СЂРµР·СѓР»СЊС‚РёСЂСѓСЋС‰РµР№ РјР°С‚СЂРёС†С‹
 					result->matrix[i][j] += this->matrix[i][k] * right.matrix[k][j];
 		return result;
 	}
@@ -103,7 +103,7 @@ Matrix<T>* Matrix<T>::operator*(const Matrix<T> &right) const {
 	}
 }
 
-//Перегрузка оператора ввода
+//РџРµСЂРµРіСЂСѓР·РєР° РѕРїРµСЂР°С‚РѕСЂР° РІРІРѕРґР°
 template <class T>
 istream &operator>>(istream &input, Matrix<T> &A) {
 	for (int i = 0; i < A.row; i++)
@@ -112,18 +112,18 @@ istream &operator>>(istream &input, Matrix<T> &A) {
 	return input;
 }
 
-//Перегрузка оператора вывода
+//РџРµСЂРµРіСЂСѓР·РєР° РѕРїРµСЂР°С‚РѕСЂР° РІС‹РІРѕРґР°
 template <class T>
 ostream &operator<<(ostream& output, const Matrix<T> &A) {
 	for (int i = 0; i < A.row; i++) {
 		for (int j = 0; j < A.col; j++)
-			output << setw(6) << A.matrix[i][j]; //Выделяем 6 ячеек для числа
+			output << setw(6) << A.matrix[i][j]; //Р’С‹РґРµР»СЏРµРј 6 СЏС‡РµРµРє РґР»СЏ С‡РёСЃР»Р°
 		output << std::endl;
 	}
 	return output;
 }
 
-//Метод принимает статический массив и создает матрицу 
+//РњРµС‚РѕРґ РїСЂРёРЅРёРјР°РµС‚ СЃС‚Р°С‚РёС‡РµСЃРєРёР№ РјР°СЃСЃРёРІ Рё СЃРѕР·РґР°РµС‚ РјР°С‚СЂРёС†Сѓ 
 template <class T>
 void Matrix<T>::Set(T in[]) {
 	int k;
@@ -133,17 +133,17 @@ void Matrix<T>::Set(T in[]) {
 			k++;
 		}
 }
-//Метод выводит матрицу на экран
+//РњРµС‚РѕРґ РІС‹РІРѕРґРёС‚ РјР°С‚СЂРёС†Сѓ РЅР° СЌРєСЂР°РЅ
 template <class T>
 void Matrix<T>::Print() {
 	for (int i = 0; i < this->row; i++) {
 		for (int j = 0; j < this->col; j++)
-			cout << setw(8) << this->matrix[i][j]; //Выделяем 8 ячейки для числа
+			cout << setw(8) << this->matrix[i][j]; //Р’С‹РґРµР»СЏРµРј 8 СЏС‡РµР№РєРё РґР»СЏ С‡РёСЃР»Р°
 		cout << endl;
 	}
 }
 
-//Формируем массив минимальных значений в каждой строке
+//Р¤РѕСЂРјРёСЂСѓРµРј РјР°СЃСЃРёРІ РјРёРЅРёРјР°Р»СЊРЅС‹С… Р·РЅР°С‡РµРЅРёР№ РІ РєР°Р¶РґРѕР№ СЃС‚СЂРѕРєРµ
 template <class T>
 void Matrix<T>::find_Min() {
 	int i, j;
@@ -162,7 +162,7 @@ void Matrix<T>::find_Min() {
 }
 
 
-//Функция для генерации случайных чисел для матрицы нужного размера
+//Р¤СѓРЅРєС†РёСЏ РґР»СЏ РіРµРЅРµСЂР°С†РёРё СЃР»СѓС‡Р°Р№РЅС‹С… С‡РёСЃРµР» РґР»СЏ РјР°С‚СЂРёС†С‹ РЅСѓР¶РЅРѕРіРѕ СЂР°Р·РјРµСЂР°
 stringstream Form_input(const int& rows, const int& columns) {
 	stringstream input;
 	for (int i = 0; i < rows*columns; i++)
